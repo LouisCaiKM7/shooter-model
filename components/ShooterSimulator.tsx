@@ -20,11 +20,18 @@ export default function ShooterSimulator() {
   const [shooterVelocity, setShooterVelocity] = useState(12);
   const [shooterAngle, setShooterAngle] = useState(45);
   const [modelLoaded, setModelLoaded] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    loadModelTable().then(() => {
-      setModelLoaded(true);
-    });
+    loadModelTable()
+      .then(() => {
+        setModelLoaded(true);
+        console.log('Model loaded successfully');
+      })
+      .catch((error) => {
+        setLoadError(error.message);
+        console.error('Model loading failed:', error);
+      });
   }, []);
 
   const worldToCanvas = useCallback((x: number, z: number) => {
@@ -194,6 +201,41 @@ export default function ShooterSimulator() {
     setIsDraggingRobot(false);
     setIsDraggingTarget(false);
   };
+
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-8">
+        <div className="text-center max-w-2xl">
+          <h1 className="text-4xl font-bold text-white mb-4">FRC Shooter Simulator</h1>
+          <div className="bg-red-900/50 border border-red-500 rounded-lg p-6">
+            <p className="text-xl text-red-300 mb-2">Failed to load model data</p>
+            <p className="text-sm text-gray-300 mb-4">{loadError}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!modelLoaded) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-white mb-4">FRC Shooter Simulator</h1>
+          <div className="flex flex-col items-center gap-4">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-500"></div>
+            <p className="text-xl text-gray-300">Loading model data...</p>
+            <p className="text-sm text-gray-500">Loading 503KB physics model table</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-6 p-8">
