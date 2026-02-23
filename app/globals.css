@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-track {
+  background: #4a4a6a;
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #4a4a6a;
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -0.25rem;
+  background-color: #00ff88;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+}
+
+input[type="range"]::-moz-range-thumb {
+  border: none;
+  background-color: #00ff88;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+}
+
+input[type="range"]:disabled::-webkit-slider-thumb {
+  background-color: #666;
+}
+
+input[type="range"]:disabled::-moz-range-thumb {
+  background-color: #666;
+}
