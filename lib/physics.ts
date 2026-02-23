@@ -185,8 +185,10 @@ let modelTable: Map<number, Map<number, ShotModel>> | null = null;
 
 export async function loadModelTable(): Promise<void> {
   try {
-    console.log('Loading model table from /ref.json...');
-    const response = await fetch('/ref.json');
+    const basePath = process.env.NODE_ENV === 'production' ? '/shooter-model' : '';
+    const jsonPath = `${basePath}/ref.json`;
+    console.log(`Loading model table from ${jsonPath}...`);
+    const response = await fetch(jsonPath);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
